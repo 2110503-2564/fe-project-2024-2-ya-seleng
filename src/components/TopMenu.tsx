@@ -6,7 +6,6 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import { Link } from '@mui/material';
 
 export default async function TopMenu() {
-    
     const session = await getServerSession(authOptions)
 
     return (
@@ -29,12 +28,15 @@ export default async function TopMenu() {
                             </Link>
                         )
                     }
+                    <Link href="/mybooking">
+                        <div className="px-2 text-cyan-600 text-sm">
+                            My Booking
+                        </div>
+                    </Link>
                 </div>
-
                 <TopMenuItem title='Booking' pageRef='/booking'/>
             </div>
             <Image src={'/img/logo.png'} className={styles.logoimg} alt='logo' width={0} height={0} sizes='100vh'/>
-            
         </div>
     );
 }
