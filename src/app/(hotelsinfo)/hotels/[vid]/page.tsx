@@ -72,6 +72,15 @@ export default async function VenueDetailPage({
             Back to All Hotels
           </span>
         </Link>
+        <Link
+          href="/booking"
+          className="relative inline-block w-40 h-12 text-[17px] font-medium border-2 border-black bg-gray-800 text-white rounded-md overflow-hidden transition-colors duration-500 hover:bg-white hover:text-black ml-6"
+        >
+          <span className="absolute top-full left-full w-[200px] h-[150px] bg-white rounded-full transition-all duration-700 hover:top-[-30px] hover:left-[-30px]"></span>
+          <span className="relative z-10 flex items-center justify-center h-full w-full">
+            To Booking
+          </span>
+        </Link>
       </div>
     </main>
   );

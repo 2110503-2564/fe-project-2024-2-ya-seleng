@@ -19,25 +19,25 @@ export default async function TopMenu() {
           </Link>
         ) : (
           <Link href="/api/auth/signin?callbackUrl=/">
-            <div className="text-cyan-600 text-sm">
-              Sign-In
-            </div>
+            <div className="text-cyan-600 text-sm">Sign-In</div>
           </Link>
         )}
-
+        <TopMenuItem title="Register" pageRef="/register" />
         <TopMenuItem title="My Booking" pageRef="/mybooking" />
       </div>
 
       <div className="flex items-center space-x-4 ml-auto">
         <TopMenuItem title="Booking" pageRef="/booking" />
         <div className="flex justify-center items-center">
-          <Image
-            src={"/img/logo.png"}
-            className={`${styles.logoimg}`}
-            alt="logo"
-            width={40} 
-            height={50}
-          />
+          <Link href="/">
+            <Image
+              src={"/img/logo.png"}
+              className={`${styles.logoimg}`}
+              alt="logo"
+              width={40}
+              height={50}
+            />
+          </Link>
         </div>
       </div>
     </div>
