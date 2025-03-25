@@ -6,9 +6,12 @@ import { getServerSession } from "next-auth";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
-import { addBooking } from "@/redux/features/bookSlice";
+import { addBooking as reduxBooking} from "@/redux/features/bookSlice";
 import { BookingItem } from "../../../interfaces";
 import ErrorAlert from "@/components/ErrorAlert";
+import SuccessAlert from "@/components/SuccessAlert";
+import { useSession } from "next-auth/react";
+import addBooking from "@/libs/addBooking";
 
 export default function Booking() {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,25 +21,37 @@ export default function Booking() {
   const [contactNumber, setContactNumber] = useState("");
   const [hotel, setHotel] = useState<string>("");
   const [night, setNight] = useState<number>(0);
-  const [showErrorAlert, setShowErrorAlert] = useState(false); // State to control error alert visibility
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const { data : session } = useSession();
 
-  const makeBooking = () => {
+  const makeBooking = async () => {
+    console.log("Session Data:", session);
+    console.log("Session User:", session?.user);
+    console.log("Token:", session?.user?.token);
+
+    if (!session?.user?.token) {
+      console.error("Token is missing!");
+      setShowErrorAlert(true);
+      return;
+    }
+
     if (nameLastname && contactNumber && hotel && reserveDate) {
       const item: BookingItem = {
-        nameLastname: nameLastname,
+        nameLastname,
         tel: contactNumber,
-        hotel: hotel,
+        hotel,
         bookDate: dayjs(reserveDate).format("YYYY/MM/DD"),
-        night: night,
+        night,
       };
-      dispatch(addBooking(item));
+      dispatch(reduxBooking(item));
+      addBooking(night,dayjs(reserveDate).format("YYYY-MM-DD"),nameLastname,hotel,session?.user.token)
+      setShowSuccessAlert(true);
+      setShowErrorAlert(false);
     } else {
-      setShowErrorAlert(true); // Show the error alert if the form is incomplete
+      setShowErrorAlert(true);
+      setShowSuccessAlert(false);
     }
-  };
-
-  const closeErrorAlert = () => {
-    setShowErrorAlert(false); // Close the error alert
   };
 
   return (
@@ -44,23 +59,30 @@ export default function Booking() {
       {showErrorAlert && (
         <ErrorAlert
           message="Please fill out all fields"
-          onClose={closeErrorAlert}
+          onClose={() => setShowErrorAlert(false)}
         />
       )}
+      {showSuccessAlert && (
+        <SuccessAlert
+          message="Booking successfully completed!"
+          onClose={() => setShowSuccessAlert(false)}
+        />
+      )}
+
       <div className="text-xl font-medium">New Booking</div>
       <div className="w-fix space-y-2">
         <div className="text-md text-left text-gray-600">Booking Details</div>
         <DateReserve
-          onHotelChange={(value: string) => setHotel(value)}
-          onNameChange={(value: string) => setNameLastname(value)}
-          onNumberChange={(value: string) => setContactNumber(value)}
-          onDateChange={(value: Dayjs) => setReserveDate(value)}
-          onNightChange={(value: number) => setNight(value)}
+          onHotelChange={setHotel}
+          onNameChange={setNameLastname}
+          onNumberChange={setContactNumber}
+          onDateChange={setReserveDate}
+          onNightChange={setNight}
         />
       </div>
 
       <button
-        className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 px-2 shadow-sm text-white"
+        className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2 shadow-sm text-white"
         name="Book Hotel"
         onClick={makeBooking}
       >
