@@ -4,7 +4,7 @@ import { TIMEOUT } from "dns"
 export default async function getBookings(token:string) {
     await new Promise((resolve)=>setTimeout(resolve, 300))
     
-    const response = await fetch("http://localhost:5050/api/v1/bookings",
+    const response = await fetch("https://ya-seleng-back-9x4ws9udo-hattakorn-hattakarns-projects.vercel.app/api/v1/bookings",
         {
             method: "GET",
             headers: {

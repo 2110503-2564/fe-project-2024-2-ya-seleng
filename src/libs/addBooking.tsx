@@ -6,7 +6,7 @@ export default async function addBooking(
   token: string
 ) {
   const response = await fetch(
-    `http://localhost:5050/api/v1/hotels/${hotelID}/bookings`,
+    `https://ya-seleng-back-9x4ws9udo-hattakorn-hattakarns-projects.vercel.app/api/v1/hotels/${hotelID}/bookings`,
     {
       method: "POST",
       headers: {
