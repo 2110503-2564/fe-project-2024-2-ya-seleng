@@ -60,7 +60,7 @@ export default function LocalizationProvider({
       onNightChange(value);
     } else {
       setNight(3);
-      onNightChange(3); 
+      onNightChange(3);
     }
   };
 
@@ -112,13 +112,20 @@ export default function LocalizationProvider({
           />
         </MUILocalizationProvider>
       </div>
-      <div>
+      <div className="flex flex-col items-center space-y-2">
+        <label htmlFor="night" className="text-gray-700 font-medium">
+          Select Amount of Days
+        </label>
         <input
+          id="night"
           type="number"
           value={night}
-          onChange={handleNightChange} // Use handleNightChange
-          min={0} // Optional: limit the minimum value to 0
-          max={3} // Optional: limit the maximum value to 3
+          onChange={handleNightChange}
+          min={1}
+          max={3}
+          className="w-24 p-2 border border-gray-300 rounded-md text-center text-gray-700 shadow-sm 
+               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+               transition-all duration-300"
         />
       </div>
     </div>

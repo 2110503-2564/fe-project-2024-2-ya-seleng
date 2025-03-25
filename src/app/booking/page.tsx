@@ -2,11 +2,10 @@
 import DateReserve from "@/components/DateReserve";
 import { authOptions } from "@/libs/auth";
 import dayjs, { Dayjs } from "dayjs";
-import { getServerSession } from "next-auth";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
-import { addBooking as reduxBooking} from "@/redux/features/bookSlice";
+import { addBooking as reduxBooking } from "@/redux/features/bookSlice";
 import { BookingItem } from "../../../interfaces";
 import ErrorAlert from "@/components/ErrorAlert";
 import SuccessAlert from "@/components/SuccessAlert";
@@ -23,15 +22,10 @@ export default function Booking() {
   const [night, setNight] = useState<number>(0);
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const { data : session } = useSession();
+  const { data: session } = useSession();
 
   const makeBooking = async () => {
-    console.log("Session Data:", session);
-    console.log("Session User:", session?.user);
-    console.log("Token:", session?.user?.token);
-
     if (!session?.user?.token) {
-      console.error("Token is missing!");
       setShowErrorAlert(true);
       return;
     }
@@ -45,7 +39,7 @@ export default function Booking() {
         night,
       };
       dispatch(reduxBooking(item));
-      addBooking(night,dayjs(reserveDate).format("YYYY-MM-DD"),nameLastname,hotel,session?.user.token)
+      addBooking(night, dayjs(reserveDate).format("YYYY-MM-DD"), nameLastname, hotel, session?.user.token);
       setShowSuccessAlert(true);
       setShowErrorAlert(false);
     } else {
@@ -55,39 +49,38 @@ export default function Booking() {
   };
 
   return (
-    <main className="w-[100%] flex flex-col items-center space-y-4">
-      {showErrorAlert && (
-        <ErrorAlert
-          message="Please fill out all fields"
-          onClose={() => setShowErrorAlert(false)}
-        />
-      )}
-      {showSuccessAlert && (
-        <SuccessAlert
-          message="Booking successfully completed!"
-          onClose={() => setShowSuccessAlert(false)}
-        />
-      )}
+    <main className="w-full flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
+      {/* Alert Messages */}
+      {showErrorAlert && <ErrorAlert message="Please fill out all fields" onClose={() => setShowErrorAlert(false)} />}
+      {showSuccessAlert && <SuccessAlert message="Booking successfully completed!" onClose={() => setShowSuccessAlert(false)} />}
 
-      <div className="text-xl font-medium">New Booking</div>
-      <div className="w-fix space-y-2">
-        <div className="text-md text-left text-gray-600">Booking Details</div>
-        <DateReserve
-          onHotelChange={setHotel}
-          onNameChange={setNameLastname}
-          onNumberChange={setContactNumber}
-          onDateChange={setReserveDate}
-          onNightChange={setNight}
-        />
+      {/* Booking Card */}
+      <div className="bg-white shadow-lg rounded-xl p-8 max-w-md w-full text-center space-y-6">
+        <h2 className="text-3xl font-semibold text-gray-800">New Booking</h2>
+
+        <div className="border-b pb-4">
+          <p className="text-gray-600 text-sm">Booking Details</p>
+        </div>
+
+        {/* Input Fields */}
+        <div className="flex flex-col items-center space-y-4 w-full">
+          <DateReserve
+            onHotelChange={setHotel}
+            onNameChange={setNameLastname}
+            onNumberChange={setContactNumber}
+            onDateChange={setReserveDate}
+            onNightChange={setNight}
+          />
+        </div>
+
+        {/* Book Button */}
+        <button
+          className="w-full py-3 rounded-md bg-gradient-to-r from-sky-500 to-indigo-500 text-white font-medium shadow-md transition-transform duration-300 transform hover:scale-105"
+          onClick={makeBooking}
+        >
+          Book Hotel
+        </button>
       </div>
-
-      <button
-        className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2 shadow-sm text-white"
-        name="Book Hotel"
-        onClick={makeBooking}
-      >
-        Book Hotel
-      </button>
     </main>
   );
 }

@@ -8,8 +8,8 @@ export default function UpdateBookingPage() {
   const { id } = useParams() as { id: string }; // ✅ ใช้ id จาก URL
   const { data: session } = useSession();
   const router = useRouter();
-  
-  const [bookingDate, setBookingDate] = useState(""); 
+
+  const [bookingDate, setBookingDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -38,7 +38,9 @@ export default function UpdateBookingPage() {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Update Booking</h1>
 
-      <label className="block mb-2 text-lg font-medium">Select New Booking Date</label>
+      <label className="block mb-2 text-lg font-medium">
+        Select New Booking Date
+      </label>
       <input
         type="date"
         value={bookingDate}
@@ -48,10 +50,15 @@ export default function UpdateBookingPage() {
 
       <button
         onClick={handleUpdate}
-        className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+        className={`relative inline-block w-40 h-12 text-[17px] font-medium border-2 border-black py-2 px-4 rounded-lg transition-colors duration-500 
+              ${
+                loading
+                  ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                  : "bg-blue-500 text-white hover:bg-blue-300 hover:text-black"
+              }`}
         disabled={loading}
       >
-        {loading ? "Updating..." : "Update Booking"}
+        {loading ? "Updating..." : "Update"}
       </button>
 
       {message && <p className="mt-4 text-lg">{message}</p>}
