@@ -25,7 +25,7 @@ export default function Booking() {
         nameLastname: nameLastname,
         tel: contactNumber,
         hotel: hotel,
-        bookDate: dayjs(reserveDate).format("YYY/MM/DD"),
+        bookDate: dayjs(reserveDate).format("YYYY/MM/DD"),
         night: night
       }
       dispatch(addBooking(item))
