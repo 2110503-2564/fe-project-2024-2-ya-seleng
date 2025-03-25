@@ -23,6 +23,7 @@ export interface BookingItem {
     tel: string;
     hotel: string;
     bookDate: string;
+    night: number
   }
 
 export interface HotelItemJson {

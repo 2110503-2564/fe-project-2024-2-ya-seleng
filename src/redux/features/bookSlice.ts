@@ -30,7 +30,8 @@ export const bookSlice = createSlice({
           (obj.nameLastname !== action.payload.nameLastname) ||
           (obj.tel !== action.payload.tel) ||
           (obj.hotel !== action.payload.hotel) ||
-          (obj.bookDate !== action.payload.bookDate)
+          (obj.bookDate !== action.payload.bookDate)||
+          (obj.night !== action.payload.night)
         );
       })
       state.bookItems = remainItems;

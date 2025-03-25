@@ -13,26 +13,29 @@ export default function LocalizationProvider({
   onNameChange,
   onNumberChange,
   onDateChange,
+  onNightChange,
 }: {
   onHotelChange: Function;
   onNameChange: Function;
   onNumberChange: Function;
   onDateChange: Function;
+  onNightChange: Function;
 }) {
   const [hotel, setHotel] = useState("");
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [date, setDate] = useState<Dayjs | null>(null);
+  const [night, setNight] = useState<number>();
 
   const [hotelResponse, setHotelResponse] = useState<HotelJson | null>(null);
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        const hotels = await getHotels();
-        setHotelResponse(hotels);
-      };
-      fetchData();
-    }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const hotels = await getHotels();
+      setHotelResponse(hotels);
+    };
+    fetchData();
+  }, []);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onNameChange(e.target.value);
@@ -49,7 +52,6 @@ export default function LocalizationProvider({
     if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
     return 0;
   });
-  
 
   return (
     <div className="bg-slate-100 rounded-lg space-x-5 space-y-2 w-fit px-10 py-5 flex flex-col">
@@ -98,6 +100,13 @@ export default function LocalizationProvider({
             }}
           />
         </MUILocalizationProvider>
+      </div>
+      <div>
+        <input
+          type="number"
+          value={night}
+          onChange={(e) => {setNight(Number(e.target.value)); onNightChange(Number(e.target.value))}}
+        />
       </div>
     </div>
   );

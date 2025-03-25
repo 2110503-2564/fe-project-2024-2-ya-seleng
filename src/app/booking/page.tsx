@@ -17,6 +17,7 @@ export default function Booking() {
   const [nameLastname, setNameLastname] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [hotel, setHotel] = useState<string>("");
+  const [night , setNight] = useState<number>(0);
 
   const makeBooking = () => {
     if(nameLastname&&contactNumber&&hotel&&reserveDate) {
@@ -24,7 +25,8 @@ export default function Booking() {
         nameLastname: nameLastname,
         tel: contactNumber,
         hotel: hotel,
-        bookDate: dayjs(reserveDate).format("YYY/MM/DD")
+        bookDate: dayjs(reserveDate).format("YYY/MM/DD"),
+        night: night
       }
       dispatch(addBooking(item))
     }
@@ -35,7 +37,7 @@ export default function Booking() {
       <div className="text-xl font-medium">New Booking</div>
       <div className="w-fix space-y-2">
         <div className="text-md text-left text-gray-600">Booking Details</div>
-        <DateReserve  onHotelChange={(value:string)=>setHotel(value)} onNameChange={(value:string)=>setNameLastname(value)} onNumberChange={(value:string)=>setContactNumber(value)} onDateChange={(value:Dayjs)=>setReserveDate(value)}/>
+        <DateReserve  onHotelChange={(value:string)=>setHotel(value)} onNameChange={(value:string)=>setNameLastname(value)} onNumberChange={(value:string)=>setContactNumber(value)} onDateChange={(value:Dayjs)=>setReserveDate(value)} onNightChange={(value:number)=>setNight(value)}/>
       </div>
 
       <button
