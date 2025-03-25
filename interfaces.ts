@@ -26,7 +26,7 @@ export interface BookingItem {
     bookDate: string;
   }
 
-export interface VenueItemJson {
+export interface HotelItemJson {
     success: boolean,
-    data: VenueItem
+    data: HotelItem
 }

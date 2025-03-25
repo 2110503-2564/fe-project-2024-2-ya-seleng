@@ -20,7 +20,7 @@ export default async function HotelCatalog({ hotelsJson }: { hotelsJson: Promise
         }}
       >
         {hotelsJsonReady.data.map((hotelItem: HotelItem , index) => (
-          <Link href={`/hotel/${hotelItem.id}`} className="w-1/5" key={index}>
+          <Link href={`/hotels/${hotelItem.id}`} className="w-1/5" key={index}>
             <Card hotelName={hotelItem.name} imgsrc={hotelItem.picture}></Card>
           </Link>
         ))}
