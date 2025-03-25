@@ -1,58 +1,97 @@
-'use client'
-import { useReducer, useState } from "react";
+"use client";
 import Card from "./Card";
-import Link from "next/link";
-export default function CardPanel(){
+import { useReducer, useState } from "react";
+import { Link } from "@mui/material";
+import { useRef, useEffect} from "react";
+import getVenues from "@/libs/getVenues";
+import { HotelItem, HotelJson } from "../../interfaces";
 
-    const cardReducer = (
-        venueList: Map<string, number>, action: {type: string, venueName: string, rating?: number})=>{
-        switch(action.type){
-            case 'add': {
-                const newVenueList = new Map(venueList);
-                newVenueList.set(action.venueName, action.rating??0);
-                return newVenueList;
-            }
-            case 'remove': {
-                const newVenueList = new Map(venueList);
-                newVenueList.delete(action.venueName);
-                return newVenueList;
-            }
-            default: {
-                return venueList;
-            }
-        }
+export default function CardPanel() {
+
+  const [hotelResponse, setHotelResponse] = useState<HotelJson|null>(null)
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const hotels = await getVenues()
+      setHotelResponse(hotels)
     }
+    fetchData()
+  },[])
 
-    let defaultVenue = new Map<string, number>([
-        ["The Bloom Pavilion", 0],
-        ["Spark Space", 0],
-        ["The Grand Table", 0],
-    ]);
+  const cardReducer = (
+    hotelList: Map<string, number>,
+    action: { type: string; hotelName: string; rating?: number }
+  ) => {
+    switch (action.type) {
+      case "add": {
+        const newHotelList = new Map(hotelList);
+        newHotelList.set(action.hotelName, action.rating ?? 0);
+        return newHotelList;
+      }
+      case "remove": {
+        const newHotelList = new Map(hotelList);
+        newHotelList.delete(action.hotelName);
+        return newHotelList;
+      }
+      default:
+        return hotelList;
+    }
+  };
 
-    const [ venueList, dispatchCompare ] = useReducer(cardReducer, defaultVenue)
+  let defaultHotel = new Map<string, number>([
+    ["The Bloom Pavilion", 0],
+    ["Spark Space", 0],
+    ["The Grand Table", 0],
+  ]);
 
-    /*
-        Mock Data for Demontration Only
-    */
-    const mockVenueRepo = [
-        {vid: "001", name: "The Bloom Pavilion", image: "/img/bloom.jpg"},
-        {vid: "002", name: "Spark Space", image: "/img/sparkspace.jpg"},
-        {vid: "003", name: "The Grand Table", image: "/img/grandtable.jpg"},
-   ]
+  const [hotelList, dispatchCompare] = useReducer(cardReducer, defaultHotel);
 
-    return (
-        <div>
-            <div style={{margin:"20px", display:"flex", flexDirection:"row", flexWrap:"wrap", justifyContent:"space-around", alignContent:"space-around"}}>
-                {
-                    mockVenueRepo.map((venueItem)=>(
-                        <Link href={`/venue/${venueItem.vid}`} className="w-1/5">
-                            <Card venueName={venueItem.name} imgSrc={venueItem.image} onCompare={ (venue:string, rating:number)=>dispatchCompare({type:'add',venueName:venue, rating:rating}) }/>
-                        </Link>
-                    ))
-                }
-            </div>
-            <div className="w-full text-xl font-medium">Compare List: { venueList.size }</div>
-            {Array.from(venueList).map(([venueName, rating]) => (<div key={venueName} onClick={()=>dispatchCompare({type:'remove', venueName:venueName})} data-testid = {venueName}>{venueName} : {rating}</div> )) }
+  if(!hotelResponse) return (<p>Hotel Panel is Loading ...</p>)
+
+  return (
+    <div>
+      <div
+        style={{
+          margin: "20px",
+          display: "flex",
+          flexDirection: "row",
+          alignContent: "space-around",
+          justifyContent: "space-around",
+          flexWrap: "wrap",
+          padding: "10px",
+        }}
+      >
+        {hotelResponse.data.map((hotelItem:HotelItem) => (
+          <Link href={`/hotel/${hotelItem.id}`} className="w-1/5">
+          <Card
+            hotelName={hotelItem.name}
+            imgsrc={hotelItem.picture}
+            onCompare={(hotel: string, rating: number) =>
+              dispatchCompare({ type: "add", hotelName: hotel, rating: rating })
+            }
+          />
+          </Link>
+        ))}
+      </div>
+      <div className="mt-5">
+        <div className="text-xl font-bold">
+          Hotel List with Ratings : {hotelList.size}
         </div>
-    );
+        <div className="border rounded-lg p-3">
+          {Array.from(hotelList).map(([hotel, rating]) => (
+            <div
+              key={hotel}
+              data-testid={`${hotel}`}
+              onClick={() =>
+                dispatchCompare({ type: "remove", hotelName: hotel })
+              }
+              className="cursor-pointer p-2 border-b hover:bg-gray-100"
+            >
+              {hotel} : {rating}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }

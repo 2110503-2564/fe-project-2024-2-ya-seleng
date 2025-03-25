@@ -1,57 +1,52 @@
-'use client'
-import {DatePicker} from "@mui/x-date-pickers"
-import { LocalizationProvider } from "@mui/x-date-pickers"
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs"
-import { useState } from "react"
-import { TextField,Select,MenuItem } from "@mui/material"
-import { Dayjs } from "dayjs"
+"use client";
+import { DatePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider as MUILocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Select, MenuItem, TextField } from "@mui/material";
+import { useState } from "react";
+import { Dayjs } from "dayjs";
 
-export default function DateReserve(
-    {onDateChange,onLocationChange,onNameChange,onTelChange}:
-    {onDateChange:Function,onLocationChange:Function,onNameChange:Function,onTelChange:Function}){
+export default function LocalizationProvider({onHotelChange, onNameChange, onNumberChange, onDateChange} : {onHotelChange:Function, onNameChange:Function, onNumberChange:Function, onDateChange:Function}) {
 
-    const [reserveDate,setReserveDate] = useState<Dayjs|null>(null);
-    const [reserveLocation,setReserveLocation] = useState<string>("Bloom");
-    const [reserveName,setReserveName] = useState<string|null>(null);
-    const [tel,setTel] = useState<string|null>(null);
-    return(
-        <div  className="flex flex-col w-[600px] ">
-            <TextField
-                variant="standard"
-                name="Name-Lastname"
-                label="Name-Lastname"
-                value={reserveName}
-                onChange={(e)=>{setReserveName(e.target.value);onNameChange(e.target.value)}}
-                className="w-[200px] h-[60px] mt-0 ml-[10px]"
-            />
-            <TextField
-                variant="standard"
-                name="Contact-Number"
-                label="Contact-Number"
-                value={tel}
-                onChange={(e)=>{setTel(e.target.value);onTelChange(e.target.value)}}
-                className="w-[200px] h-[60px] ml-[10px]"
-            />
-            <Select
-                variant="standard"
-                id="venue"
-                value={reserveLocation}
-                className="h-[2em] w-[200px] ml-[10px] mb-[20px] mt-[7px]"
-                onChange={(e)=>{setReserveLocation(e.target.value);onLocationChange(e.target.value)}}
-            >
-                <MenuItem value="Bloom">The Bloom Pavilion</MenuItem>
-                <MenuItem value="Spark">Spark Space</MenuItem>
-                <MenuItem value="GrandTable">The Grand Table</MenuItem>
-            </Select>
-            <div className="flex flex-col ml-[3px] p-0 pt-[10px]  pb-[10px] w-[600px] rounded-lg">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker 
-                        className="bg-white rounded-md w-[300px]"
-                        value={reserveDate}
-                        onChange={(value)=>{setReserveDate(value);onDateChange(value)}}
-                        />
-                </LocalizationProvider>
-            </div>
-        </div>
-    )
+  const [hotel, setHotel] = useState("")
+  const [name, setName] = useState("")
+  const [number, setNumber] = useState("")
+  const [date, setDate] = useState<Dayjs|null>(null)
+
+  const handleNameChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    onNameChange(e.target.value)
+    setName(e.target.value)
+  }
+
+  const handleNumberChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    onNumberChange(e.target.value)
+    setNumber(e.target.value)
+  }
+
+  return (
+    <div className="bg-slate-100 rounded-lg space-x-5 space-y-2 w-fit px-10 py-5 flex flex-col">
+      <label htmlFor="Name-Lastname">Name-Lastname</label>
+      <TextField name="Name-Lastname" id="Name-Lastname" variant="standard" value={name} onChange={handleNameChange}></TextField>
+      <label htmlFor="Contact-Number">Contact-Number</label>
+      <TextField name="Contact-Number" id="Contact-Number" variant="standard" value={number} onChange={handleNumberChange}></TextField>
+      <label htmlFor="hotel">Select Hotel</label>
+      <Select
+          variant="standard"
+          name="hotel"
+          id="hotel"
+          className="h-[2em] w-[200px]"
+          value={hotel}
+          onChange={(e)=>{setHotel(e.target.value); onHotelChange(e.target.value)}}
+        >
+          <MenuItem value="Bloom">The Bloom Pavilion</MenuItem>
+          <MenuItem value="Spark">Spark Space</MenuItem>
+          <MenuItem value="GrandTable">The Grand Table</MenuItem>
+        </Select>
+      <div className="flex flex-row justify-center space-x-5">
+        <MUILocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker className="bg-white" value={date} onChange={(value)=>{setDate(value); onDateChange(value)}}/>
+        </MUILocalizationProvider>
+      </div>
+    </div>
+  );
 }

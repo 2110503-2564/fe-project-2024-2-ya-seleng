@@ -1,41 +1,48 @@
-import styles from './topmenu.module.css'
-import Image from 'next/image';
-import TopMenuItem from './TopMenuItem';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
-import { Link } from '@mui/material';
+import styles from "./topmenu.module.css";
+import Image from "next/image";
+import TopMenuItem from "./TopMenuItem";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/libs/auth";
+import { Link } from "@mui/material";
 
 export default async function TopMenu() {
-    const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
 
-    return (
-        <div className={styles.menucontainer}>
-            <div className="flex justify-between items-center w-full">
-                <div className="flex items-center">
-                    {
-                        session ? (
-                            <Link href="/api/auth/signout">
-                                <div className='px-2 text-cyan-600 text-sm'>
-                                    Logout of {session.user?.name}
-                                </div>
-                            </Link>
-                        ) : (
-                            <Link href="/api/auth/signin">
-                                <div className='px-2 text-cyan-600 text-sm'>
-                                    Login
-                                </div>
-                            </Link>
-                        )
-                    }
-                    <Link href="/mybooking">
-                        <div className="px-2 text-cyan-600 text-sm">
-                            My Booking
-                        </div>
-                    </Link>
-                </div>
-                <TopMenuItem title='Booking' pageRef='/booking'/>
+  console.log("Session:", session);
+
+  return (
+    <div className={styles.menucontainer}>
+      <div className="flex items-center space-x-4">
+        {session ? (
+          <Link href="/api/auth/signout">
+            <div className="text-cyan-600 text-sm">
+              Sign-Out of {session?.user?.name}
             </div>
-            <Image src={'/img/logo.png'} className={styles.logoimg} alt='logo' width={0} height={0} sizes='100vh'/>
+          </Link>
+        ) : (
+          <Link href="/api/auth/signin">
+            <div className="text-cyan-600 text-sm">
+              Sign-In
+            </div>
+          </Link>
+        )}
+
+        <TopMenuItem title="My Booking" pageRef="/mybooking" />
+      </div>
+
+      {/* Right side: Booking link and Logo */}
+      <div className="flex items-center space-x-4 ml-auto">
+        <TopMenuItem title="Booking" pageRef="/booking" />
+        <div className="flex justify-center items-center">
+          <Image
+            src={"/img/logo.png"}
+            className={`${styles.logoimg}`}
+            alt="logo"
+            width={40} 
+            height={50}
+          />
         </div>
-    );
+      </div>
+    </div>
+  );
 }

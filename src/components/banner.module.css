@@ -1,15 +1,29 @@
-.banner {
-  display: block;
-  padding: 5px;
-  margin: 0;
-  width: 100vw;
-  height: 80vh;
-  position: relative;
-}
+@import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
 
-.bannerText {
-  position: relative;
-  top: 100px;
-  z-index: 20;
-  text-align: center;
-}
+.banner {
+    position: relative;
+    width: 100vw;
+    height: 50vh;
+    padding: 5px;
+    display: box;
+    position: relative;
+  }
+  
+  .bannerText {
+    font-family: "Kanit", sans-serif;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    position: relative;
+    top: 100px;
+    z-index: 20;
+    text-align: center;
+  }
+
+  .mainBannerText {
+    font-size: 3em;
+  }
+
+  .descBannerText {
+    font-size: 2em;
+  }
+  

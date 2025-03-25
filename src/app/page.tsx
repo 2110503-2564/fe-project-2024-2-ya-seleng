@@ -1,10 +1,11 @@
+import Image from "next/image";
+import Banner from "../components/Banner";
 import styles from "./page.module.css";
-import Banner from "@/components/Banner";
-import CardPanel from "@/components/CardPanel";
+import Card from "../components/Card";
 
 export default function Home() {
   return (
-    <main>
+    <main className={styles.main}>
       <Banner/>
     </main>
   );

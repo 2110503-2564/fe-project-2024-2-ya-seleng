@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
 .menucontainer {
     height: 50px;
     background-color: white;
@@ -6,11 +7,10 @@
     left: 0px;
     right: 0px;
     z-index: 30;
-    border-top: 1px solid lightgray;
-    border-bottom: 1px solid lightgray;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
 }
 
 .logoimg {
@@ -23,7 +23,7 @@
     text-align: center;
     margin-top: auto;
     margin-bottom: auto;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 10pt;
+    font-family: "Kanit", sans-serif;
+    font-size: 10px;
     color: gray;
 }
