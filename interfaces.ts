@@ -27,11 +27,12 @@ export interface BookingItem {
 }
 
 export interface BookingsItem {
+  _id: string;
   bookingDate: string;
-  createdAt: string;
-  data:HotelJSON;
+  user: UserJSON;
+  hotel: HotelJSON;
   nights: number;
-  user:string;
+  createAt: string;
 }
 
 export interface HotelJSON {
@@ -52,4 +53,15 @@ export interface BookingJson {
 export interface HotelItemJson {
   success: boolean;
   data: HotelItem;
+}
+
+export interface UserJSON{
+  _id: string
+  name: string
+  email: string
+  role: string
+  password: string
+  tel: string
+  isBanned: boolean
+  createAt: string
 }
