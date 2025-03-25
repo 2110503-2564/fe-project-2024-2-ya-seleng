@@ -34,8 +34,8 @@ export default async function TopMenu() {
               src={"/img/logo.png"}
               className={`${styles.logoimg}`}
               alt="logo"
-              width={40}
-              height={50}
+              width={60}
+              height={100}
             />
           </Link>
         </div>

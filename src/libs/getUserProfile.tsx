@@ -1,5 +1,5 @@
 export default async function getUserProfile(token:string) {
-  const response = await fetch("hhttps://ya-seleng-back-9x4ws9udo-hattakorn-hattakarns-projects.vercel.app/api/v1/auth/me",
+  const response = await fetch("https://ya-seleng-back-end.vercel.app/api/v1/auth/me",
     {
       method: "GET",
       headers: {

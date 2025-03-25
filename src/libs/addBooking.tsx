@@ -6,7 +6,7 @@ export default async function addBooking(
   token: string
 ) {
   const response = await fetch(
-    `https://ya-seleng-back-9x4ws9udo-hattakorn-hattakarns-projects.vercel.app/api/v1/hotels/${hotelID}/bookings`,
+    `https://ya-seleng-back-end.vercel.app/api/v1/hotels/${hotelID}/bookings`,
     {
       method: "POST",
       headers: {
@@ -22,6 +22,7 @@ export default async function addBooking(
   );
 
   if (!response.ok) {
+    console.log(response.json())
     throw new Error("Failed to create booking");
   } else {
     console.log("success");
