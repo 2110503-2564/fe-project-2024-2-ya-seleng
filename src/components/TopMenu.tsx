@@ -6,24 +6,23 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import { Link } from '@mui/material';
 
 export default async function TopMenu() {
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions);
 
     return (
         <div className={styles.menucontainer}>
             <div className="flex justify-between items-center w-full">
-                
                 <div className="flex items-center">
                     {
                         session ? (
                             <Link href="/api/auth/signout">
                                 <div className='px-2 text-cyan-600 text-sm'>
-                                    Sign-Out of {session.user?.name}
+                                    Logout of {session.user?.name}
                                 </div>
                             </Link>
                         ) : (
                             <Link href="/api/auth/signin">
                                 <div className='px-2 text-cyan-600 text-sm'>
-                                    Sign-In
+                                    Login
                                 </div>
                             </Link>
                         )

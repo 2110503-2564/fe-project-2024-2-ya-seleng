@@ -1,10 +1,10 @@
 import Image from "next/image"
-import getVenue from "@/libs/getVenue"
+import getHotel from "@/libs/getHotel"
 import Link from "next/link"
 
 export default async function VenueDetailPage ({params} : {params:{vid:string}}){
     
-    const venueDetail = await getVenue(params.vid)
+    const venueDetail = await getHotel(params.vid)
     /*
         Mock DAta for Demonstration Only
     */
@@ -19,7 +19,7 @@ export default async function VenueDetailPage ({params} : {params:{vid:string}})
         <main className="text-center p-5">
             <h1 className="text-lg font-medium">{venueDetail.data.name}</h1>
             <div className="flex flex-row my-5">
-                <Image src = { venueDetail.data.picture }
+                <Image src = {venueDetail.data.picture}
                     alt="Venue Image"
                     width={0} height={0} sizes="100vw"
                     className="rounded-lg w-[30%]"/>
@@ -30,7 +30,7 @@ export default async function VenueDetailPage ({params} : {params:{vid:string}})
                 <div className="text-md mx-5 text-left">Tel: {venueDetail.data.tel}</div>
                 <div className="text-md mx-5 text-left">Daily Rate: {venueDetail.data.dailyrate}</div>
 
-                <Link href={`/booking?id=${params.vid}&model=${venueDetail.data.model}`}>
+                <Link href={`/booking?id=${params.vid}&model=${venueDetail.data.name}`}>
                     <button className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-1 text-white shadow-sm">
                         Booking
                     </button>
