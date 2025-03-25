@@ -21,7 +21,7 @@ export default function Card(cards: {
           className="object-cover rounded-t-lg"
         />
       </div>
-      <div className="w-full h-[10%] p-[10px] text-black">
+      <div className="w-full h-[10%] p-[10px] text-black mb-auto">
         {cards.hotelName}
       </div>
       {cards.onCompare && (

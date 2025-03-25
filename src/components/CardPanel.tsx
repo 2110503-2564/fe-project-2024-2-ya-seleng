@@ -2,21 +2,20 @@
 import Card from "./Card";
 import { useReducer, useState } from "react";
 import { Link } from "@mui/material";
-import { useRef, useEffect} from "react";
+import { useRef, useEffect } from "react";
 import getHotels from "@/libs/getHotels";
 import { HotelItem, HotelJson } from "../../interfaces";
 
 export default function CardPanel() {
-
-  const [hotelResponse, setHotelResponse] = useState<HotelJson|null>(null)
+  const [hotelResponse, setHotelResponse] = useState<HotelJson | null>(null);
 
   useEffect(() => {
-    const fetchData = async() => {
-      const hotels = await getHotels()
-      setHotelResponse(hotels)
-    }
-    fetchData()
-  },[])
+    const fetchData = async () => {
+      const hotels = await getHotels();
+      setHotelResponse(hotels);
+    };
+    fetchData();
+  }, []);
 
   const cardReducer = (
     hotelList: Map<string, number>,
@@ -46,30 +45,28 @@ export default function CardPanel() {
 
   const [hotelList, dispatchCompare] = useReducer(cardReducer, defaultHotel);
 
-  if(!hotelResponse) return (<p>Hotel Panel is Loading ...</p>)
+  if (!hotelResponse) return <p>Hotel Panel is Loading ...</p>;
 
   return (
     <div>
-      <div
-        style={{
-          margin: "20px",
-          display: "flex",
-          flexDirection: "row",
-          alignContent: "space-around",
-          justifyContent: "space-around",
-          flexWrap: "wrap",
-          padding: "10px",
-        }}
-      >
-        {hotelResponse.data.map((hotelItem:HotelItem) => (
-          <Link href={`/hotels/${hotelItem.id}`} className="w-1/5">
-          <Card
-            hotelName={hotelItem.name}
-            imgsrc={hotelItem.picture}
-            onCompare={(hotel: string, rating: number) =>
-              dispatchCompare({ type: "add", hotelName: hotel, rating: rating })
-            }
-          />
+      <div className="max-w-screen-xl mx-auto grid grid-cols-4 gap-6 p-5">
+        {hotelResponse.data.map((hotelItem: HotelItem) => (
+          <Link
+            href={`/hotel/${hotelItem.id}`}
+            key={hotelItem.id}
+            className="block w-full"
+          >
+            <Card
+              hotelName={hotelItem.name}
+              imgsrc={hotelItem.picture}
+              onCompare={(hotel: string, rating: number) =>
+                dispatchCompare({
+                  type: "add",
+                  hotelName: hotel,
+                  rating: rating,
+                })
+              }
+            />
           </Link>
         ))}
       </div>

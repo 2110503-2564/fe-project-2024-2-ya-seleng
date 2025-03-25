@@ -11,7 +11,7 @@ export default async function TopMenu() {
   console.log("Session:", session);
 
   return (
-    <div className={styles.menucontainer}>
+    <div className="fixed top-0 left-0 right-0 h-[50px] bg-white z-30 border-t border-b border-gray-300 flex items-center px-4 font-kanit">
       <div className="flex items-center space-x-4">
         {session ? (
           <Link href="/api/auth/signout">
@@ -30,7 +30,6 @@ export default async function TopMenu() {
         <TopMenuItem title="My Booking" pageRef="/mybooking" />
       </div>
 
-      {/* Right side: Booking link and Logo */}
       <div className="flex items-center space-x-4 ml-auto">
         <TopMenuItem title="Booking" pageRef="/booking" />
         <div className="flex justify-center items-center">

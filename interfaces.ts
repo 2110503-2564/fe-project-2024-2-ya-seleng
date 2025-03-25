@@ -7,7 +7,6 @@ export interface HotelItem {
     postalcode: string,
     tel: string,
     picture: string,
-    dailyrate: number,
     __v: number,
     id: string
   }
