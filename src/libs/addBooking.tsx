@@ -25,6 +25,8 @@ export default async function addBooking(
     if (!response.ok) {
       throw new Error("Failed to create booking");
     }
-  
+    else {
+      console.log("success")
+    }
     return await response.json();
   }  

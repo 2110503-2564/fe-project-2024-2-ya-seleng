@@ -25,7 +25,7 @@ export default function LocalizationProvider({
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [date, setDate] = useState<Dayjs | null>(null);
-  const [night, setNight] = useState<number>();
+  const [night, setNight] = useState<number>(0);
 
   const [hotelResponse, setHotelResponse] = useState<HotelJson | null>(null);
 
@@ -52,6 +52,17 @@ export default function LocalizationProvider({
     if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
     return 0;
   });
+
+  const handleNightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = Number(e.target.value);
+    if (value <= 3) {
+      setNight(value);
+      onNightChange(value);
+    } else {
+      setNight(3);
+      onNightChange(3); 
+    }
+  };
 
   return (
     <div className="bg-slate-100 rounded-lg space-x-5 space-y-2 w-fit px-10 py-5 flex flex-col">
@@ -105,7 +116,9 @@ export default function LocalizationProvider({
         <input
           type="number"
           value={night}
-          onChange={(e) => {setNight(Number(e.target.value)); onNightChange(Number(e.target.value))}}
+          onChange={handleNightChange} // Use handleNightChange
+          min={0} // Optional: limit the minimum value to 0
+          max={3} // Optional: limit the maximum value to 3
         />
       </div>
     </div>
