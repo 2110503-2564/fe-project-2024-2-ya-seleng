@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import updateBooking from "@/libs/updateBooking";
 
 export default function UpdateBookingPage() {
-  const { id } = useParams() as { id: string }; // ✅ ใช้ id จาก URL
+  const { id } = useParams() as { id: string };
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -45,7 +45,7 @@ export default function UpdateBookingPage() {
         type="date"
         value={bookingDate}
         onChange={(e) => setBookingDate(e.target.value)}
-        className="border p-2 rounded w-full mb-4"
+        className="border p-2 rounded w-full mb-4 bg-white text-black focus:ring-2 focus:ring-blue-400"
       />
 
       <button

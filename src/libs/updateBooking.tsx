@@ -12,7 +12,7 @@ export default async function updateBooking(
           authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          bookingDate, // ✅ เพิ่ม bookingDate
+          bookingDate,
         }),
       }
     );
